@@ -1,10 +1,12 @@
-
-
 int startX = 0;
 int startY = 150;
 int endX = 0;
 int endY = 150;
 float speed = 2.5;
+
+int savedTime;
+int totalTime = 2000; // 2 seconds in milliseconds
+
 /*(222, 255, 254) or (147, 185, 223) (Lightning Bolt Blue)
 Storm Atmosphere: (34, 29, 84) (Deep background night blue)
 Golden/Warm Flash: (252, 192, 30) (Lightning Yellow)
@@ -17,38 +19,23 @@ Golden/Warm Flash: (252, 192, 30) (Lightning Yellow)
 void setup(){
   size(800, 800);
   background(0, 0, 0);
-}
-/*
-int savedTime;
-int waitTime = 2000; // Wait for 2 seconds (2000 milliseconds)
-Color bgColor;
-
-void setup() {
-  size(400, 400);
   savedTime = millis(); // Store the starting time
-  bgColor = color(0);
 }
 
-void draw() {
-  background(bgColor);
+void draw(){
   
   // Calculate how much time has passed
   int passedTime = millis() - savedTime;
   
-  // Check if the wait time has passed
-  if (passedTime > waitTime) {
-    // Change color or trigger your event
-    bgColor = color(random(255), random(255), random(255));
-    
-    // Reset the timer for the next interval
-    savedTime = millis(); 
+  // Check if the desired time has passed
+  if (passedTime > totalTime) {
+    println("2 seconds have passed!");
+    savedTime = millis(); // Reset the timer
   }
-}
-*/
-
-void draw(){
+  
   stroke(222, 255, 254);
-  strokeWeight(9);
+  strokeWeight(2);
+  
   while (endX <= 800 && endX >= 0){
     endX = startX + (int)(Math.random()*1*speed);
     endY = startY + (int)(Math.random()*2*speed) - 2;
@@ -66,3 +53,32 @@ void mousePressed(){
    endX = 0; 
    endY = (int)(Math.random()*800);
 }
+
+/*
+
+int savedTime;
+int totalTime = 2000; // 2 seconds in milliseconds
+
+void setup() {
+  size(400, 400);
+  savedTime = millis(); // Store the starting time
+}
+
+void draw() {
+  background(255);
+  
+  // Calculate how much time has passed
+  int passedTime = millis() - savedTime;
+  
+  // Check if the desired time has passed
+  if (passedTime > totalTime) {
+    println("2 seconds have passed!");
+    savedTime = millis(); // Reset the timer
+  }
+  
+  // Draw a shape that reacts to time
+  fill(0);
+  ellipse(width/2, height/2, passedTime / 10, passedTime / 10);
+}
+
+*/
