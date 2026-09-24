@@ -1,11 +1,21 @@
-int startX = 0;
-int startY = 150;
+/*
+to do list
+
+add branches
+add flashes
+optimize colors
+*/
+
+int startX = 400;
+int startY = 0;
 int endX = 0;
-int endY = 150;
+int endY = 10;
 float speed = 2.5;
+float thicc = (int)(Math.random()*4) + 2;
+int[] branches = new int[10];
 
 int savedTime;
-int totalTime = 2000; // 2 seconds in milliseconds
+int totalTime = 30; // milliseconds, control how fast segments generate
 
 /*(222, 255, 254) or (147, 185, 223) (Lightning Bolt Blue)
 Storm Atmosphere: (34, 29, 84) (Deep background night blue)
@@ -18,67 +28,52 @@ Golden/Warm Flash: (252, 192, 30) (Lightning Yellow)
 */
 void setup(){
   size(800, 800);
-  background(0, 0, 0);
-  savedTime = millis(); // Store the starting time
+  background(0, 4, 53);
+  savedTime = millis(); // store the starting time
 }
 
 void draw(){
   
-  // Calculate how much time has passed
+  // how much time has passed since lsat save
   int passedTime = millis() - savedTime;
   
-  // Check if the desired time has passed
+  /*
   if (passedTime > totalTime) {
     println("2 seconds have passed!");
     savedTime = millis(); // Reset the timer
   }
+  */
   
-  stroke(222, 255, 254);
-  strokeWeight(2);
-  
-  while (endX <= 800 && endX >= 0){
-    endX = startX + (int)(Math.random()*1*speed);
-    endY = startY + (int)(Math.random()*2*speed) - 2;
+  if (passedTime > totalTime && endY <= height && endY >= 0){
+    
+    endX = startX + (int)(Math.random() * 3 * speed) - (int)(2.5 * speed);
+    endY = startY + (int)(Math.random() * 5 * speed);
+    
+    stroke(222, 255, 254);
+    strokeWeight(thicc); //originally 2
     line(startX, startY, endX, endY);
 
     startX = endX;
     startY = endY;
+    
+    savedTime = millis();
+    speed *= 1.07; //acceleration
+    thicc = (int)(Math.random()*3) + 3;
   }
+  
 }
 
 void mousePressed(){
+  /// screen clear
+  background(0, 4, 53); 
+  thicc = (int)(Math.random()*4) + 2;
+  
   //make it start from a random side
-   startX = 0; 
-   startY = (int)(Math.random()*800); 
-   endX = 0; 
-   endY = (int)(Math.random()*800);
+   startX = (int)(Math.random()*(width-250)) + 250;
+   startY = 0;
+   endX = (int)(Math.random()*width);
+   endY = 0;
+   
+   savedTime = millis(); //resave
+   speed = 2.5;
 }
-
-/*
-
-int savedTime;
-int totalTime = 2000; // 2 seconds in milliseconds
-
-void setup() {
-  size(400, 400);
-  savedTime = millis(); // Store the starting time
-}
-
-void draw() {
-  background(255);
-  
-  // Calculate how much time has passed
-  int passedTime = millis() - savedTime;
-  
-  // Check if the desired time has passed
-  if (passedTime > totalTime) {
-    println("2 seconds have passed!");
-    savedTime = millis(); // Reset the timer
-  }
-  
-  // Draw a shape that reacts to time
-  fill(0);
-  ellipse(width/2, height/2, passedTime / 10, passedTime / 10);
-}
-
-*/
