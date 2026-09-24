@@ -10,9 +10,13 @@ int startX = 400;
 int startY = 0;
 int endX = 0;
 int endY = 10;
-float speed = 2.5;
+float speed = 1.0;
 float thicc = (int)(Math.random()*4) + 2;
-int[] branches = new int[10];
+int[] startBranches = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int[] endBranches = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//store pairs, there are 10 total slots and 10/2 = 5 storable pairs
+int activeBranches = 1;
+//active branches will NOT go past 5!!
 
 int savedTime;
 int totalTime = 30; // milliseconds, control how fast segments generate
@@ -44,8 +48,28 @@ void draw(){
   }
   */
   
-  if (passedTime > totalTime && endY <= height && endY >= 0){
+  //REPLACE HERE
+  if (passedTime > totalTime && endY <= height && endY >= 0){ // <--REPLACE
+  //REPLACE HERE
+  
+  //if (passedTime > totalTime && endBranches[i + 1] <= height && endBranches[i + 1] >= 0){
     
+    for (int i = 0; i < activeBranches*2; i += 2){
+      //activeBranches limits how far it iterates thru the array of coords
+      //replace x
+     endBranches[i] = startBranches[i] + (int)(Math.random() * (3) * speed) - (int)(2.5 * speed);
+     // replace y (stored an index past x)
+     endBranches[i + 1] = startBranches[i] + (int)(Math.random() * 5 * speed);
+     
+     stroke(222, 255, 254);
+     strokeWeight(thicc); //originally 2
+     line(startBranches[i], startBranches[i + 1], endBranches[i], endBranches[i + 1]);
+     
+     startBranches[i] = endBranches[i];
+     startBranches[i + 1] = endBranches[i + 1];
+    }
+    
+    /*
     endX = startX + (int)(Math.random() * 3 * speed) - (int)(2.5 * speed);
     endY = startY + (int)(Math.random() * 5 * speed);
     
@@ -56,8 +80,10 @@ void draw(){
     startX = endX;
     startY = endY;
     
+    */
+    
     savedTime = millis();
-    speed *= 1.07; //acceleration
+    speed *= 1.5; //acceleration
     thicc = (int)(Math.random()*3) + 3;
   }
   
@@ -68,11 +94,21 @@ void mousePressed(){
   background(0, 4, 53); 
   thicc = (int)(Math.random()*4) + 2;
   
+  /*
   //make it start from a random side
    startX = (int)(Math.random()*(width-250)) + 250;
    startY = 0;
    endX = (int)(Math.random()*width);
    endY = 0;
+  */ 
+  
+   
+   for (int i = 0; i <= activeBranches*2; i += 2){
+   startBranches[i] = (int)(Math.random()*(width-250)) + 250;
+   startBranches[i + 1] = 0; 
+   endBranches[i] = (int)(Math.random()*width);
+   endBranches[i + 1] = 0;
+   }
    
    savedTime = millis(); //resave
    speed = 2.5;
