@@ -44,7 +44,7 @@ void setup(){
   //initialize canvas layer
   lightningCanvas = createGraphics(800, 800);
   lightningCanvas.beginDraw();
-  lightningCanvas.clear(); //start empty
+  lightningCanvas.background(0, 0, 0, 0);
   lightningCanvas.endDraw();
 }
 
@@ -109,14 +109,14 @@ void mousePressed(){
   
   // reset canvas
   lightningCanvas.beginDraw();
-  lightningCanvas.clear();
+  lightningCanvas.background(0, 0, 0, 0);
   lightningCanvas.endDraw();
   
   thicc = (int)(Math.random()*4) + 2;
   activeBranches = 1;
   
   for (int i = 0; i < activeBranches * 2; i += 2){
-    startBranches[i] = (int)(Math.random()*(width-250)) + 250;
+    startBranches[i] = (int)(Math.random()*((int)width-250)) + 250;
     startBranches[i + 1] = 0; 
     endBranches[i] = startBranches[i];
     endBranches[i + 1] = 0;
